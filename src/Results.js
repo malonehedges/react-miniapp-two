@@ -3,43 +3,48 @@ import {
   StyleSheet,
   SafeAreaView,
   View,
-  Dimensions,
   Linking,
   Text,
+  ScrollView,
+  Image,
 } from 'react-native'
 
 import Button from 'antd-mobile/lib/button'
-import List from 'antd-mobile/lib/list'
 
 export default class Results extends React.Component {
 
-  // constructor (props) {
-  //   super(props)
-  //
-  //   this.state = {
-  //     dietPickerValue: [],
-  //     servingPickerValue: [],
-  //     prepTimePickerValue: [],
-  //   }
-  // }
+  onRecipeButtonClick = (recipe) => () => {
+    Linking.openURL(recipe.url)
+  }
 
   render () {
     const { results } = this.props
-
-    const url = 'https://images.unsplash.com/photo-1510776632413-f3e527a8dc42?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a5703227ec13ae76e69fda1ad27da26f&auto=format&fit=crop&w=2850&q=80'
-
-    // Linking.openURL(recipe.url)
 
     return (
       <SafeAreaView style={styles.container}>
         <Text style={styles.resultText}>
           {results.length} result{results.length === 1 ? '' : 's'}
         </Text>
-        {results.map((recipe) => (
-          <View key={recipe.title} style={styles.resultRow}>
-            <Text>{recipe.title}</Text>
-          </View>
-        ))}
+
+        <ScrollView>
+          {results.map((recipe) => (
+            <View key={recipe.title} style={styles.resultRow} resizeMode={'cover'}>
+              <Image source={{ uri: recipe.image}} style={styles.image} />
+              <View style={styles.textContainer}>
+                <Text style={styles.titleText}>{recipe.title}</Text>
+                <Text style={styles.detailText}>
+                  {recipe.servings} servings - {recipe.prepTime} - {recipe.dietLabel}
+                </Text>
+                <Button
+                  onClick={this.onRecipeButtonClick(recipe)}
+                  style={styles.button}
+                >
+                  COOK
+                </Button>
+              </View>
+            </View>
+          ))}
+        </ScrollView>
       </SafeAreaView>
     )
   }
@@ -53,6 +58,33 @@ const styles = StyleSheet.create({
     margin: 20,
   },
   resultRow: {
-    height: 200,
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    padding: 10,
+  },
+  textContainer: {
+    flex: 0.7,
+    padding: 5,
+  },
+  titleText: {
+    fontSize: 22,
+    fontWeight: '800',
+  },
+  detailText: {
+    fontSize: 18,
+    color: '#333',
+  },
+  button: {
+    alignSelf: 'flex-end',
+    marginTop: 5,
+    backgroundColor: '#abcdef',
+    width: 90,
+    height: 40,
+  },
+  image: {
+    flex: 0.3,
+    // width: 120,
+    height: 100,
   },
 })

@@ -108,8 +108,9 @@ export default class App extends React.Component {
       )
     } else if (this.state.page === Page.Results) {
       // should be this.state.results
+      const tempResults = this.state.recipes
       return (
-        <Results results={[this.state.recipes[0]]} />
+        <Results results={tempResults} />
       )
     }
   }
