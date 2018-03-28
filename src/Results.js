@@ -28,8 +28,12 @@ export default class Results extends React.Component {
 
         <ScrollView>
           {results.map((recipe) => (
-            <View key={recipe.title} style={styles.resultRow} resizeMode={'cover'}>
-              <Image source={{ uri: recipe.image}} style={styles.image} />
+            <View key={recipe.title} style={styles.resultRow}>
+              <Image
+                source={{ uri: recipe.image }}
+                style={styles.image}
+                resizeMode={'cover'}
+              />
               <View style={styles.textContainer}>
                 <Text style={styles.titleText}>{recipe.title}</Text>
                 <Text style={styles.detailText}>
