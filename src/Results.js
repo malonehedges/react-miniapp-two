@@ -8,6 +8,9 @@ import {
   ScrollView,
   Image,
 } from 'react-native'
+// import {
+//   Notifications,
+// } from 'expo'
 
 import Button from 'antd-mobile/lib/button'
 
@@ -15,6 +18,16 @@ export default class Results extends React.Component {
 
   onRecipeButtonClick = (recipe) => () => {
     Linking.openURL(recipe.url)
+
+    // const noti = {
+    //   title: 'howdy',
+    //   body: 'ho',
+    // }
+    // Notifications.presentLocalNotificationAsync(noti)
+
+    // Notifications.scheduleLocalNotificationAsync(noti, {
+    //   time: (new Date()).getTime() + 3000,
+    // })
   }
 
   render () {
