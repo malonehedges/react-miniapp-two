@@ -5,6 +5,10 @@ import {
   View,
   Picker,
 } from 'react-native'
+import {
+  AppLoading,
+  Asset,
+} from 'expo'
 
 const Page = {
   Home: 'home',
@@ -22,10 +26,15 @@ export default class App extends React.Component {
     super(props)
 
     this.state = {
-      page: Page.Results,
+      loaded: false,
+      page: Page.Home,
       recipes: require('../assets/recipes.json').recipes,
       results: [],
     }
+  }
+
+  async _loadAssetsAsync() {
+    await Asset.fromModule(require('../assets/kitchen.png')).downloadAsync()
   }
 
   onHomeButtonClicked = () => {
@@ -95,6 +104,16 @@ export default class App extends React.Component {
   }
 
   render() {
+    if (!this.state.loaded) {
+      return (
+        <AppLoading
+          startAsync={this._loadAssetsAsync}
+          onFinish={() => this.setState({ loaded: true })}
+          onError={console.warn}
+        />
+      )
+    }
+
     if (this.state.page === Page.Home) {
       return (
         <Home onHomeButtonClicked={this.onHomeButtonClicked} />
